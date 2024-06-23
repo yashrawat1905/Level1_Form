@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import './Form.css';
 
 const Form = () => {
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     name: '',
     email: '',
     age: '',
     attendingWithGuest: 'No',
     guestName: ''
-  });
-  
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
   const [submittedData, setSubmittedData] = useState(null);
 
@@ -48,79 +49,86 @@ const Form = () => {
     }
   };
 
+  const handleClear = () => {
+    setFormData(initialFormData);
+    setErrors({});
+    setSubmittedData(null);
+  };
+
   return (
-    <div>
+    <div className="container mt-5">
       <h1>Event Registration Form</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Name:
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-            />
-          </label>
-          {errors.name && <p>{errors.name}</p>}
+      <form onSubmit={handleSubmit} className="d-flex flex-column align-items-center">
+        <div className="form-group w-100">
+          <label htmlFor="name">Name:</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            value={formData.name}
+            onChange={handleChange}
+            className="form-control"
+          />
+          {errors.name && <p className="text-danger">{errors.name}</p>}
         </div>
-        <div>
-          <label>
-            Email:
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </label>
-          {errors.email && <p>{errors.email}</p>}
+        <div className="form-group w-100">
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="form-control"
+          />
+          {errors.email && <p className="text-danger">{errors.email}</p>}
         </div>
-        <div>
-          <label>
-            Age:
-            <input
-              type="number"
-              name="age"
-              value={formData.age}
-              onChange={handleChange}
-            />
-          </label>
-          {errors.age && <p>{errors.age}</p>}
+        <div className="form-group w-100">
+          <label htmlFor="age">Age:</label>
+          <input
+            type="number"
+            name="age"
+            id="age"
+            value={formData.age}
+            onChange={handleChange}
+            className="form-control"
+          />
+          {errors.age && <p className="text-danger">{errors.age}</p>}
         </div>
-        <div>
-          <label>
-            Are you attending with a guest?
-            <select
-              name="attendingWithGuest"
-              value={formData.attendingWithGuest}
-              onChange={handleChange}
-            >
-              <option value="No">No</option>
-              <option value="Yes">Yes</option>
-            </select>
-          </label>
+        <div className="form-group w-100">
+          <label htmlFor="attendingWithGuest">Are you attending with a guest?</label>
+          <select
+            name="attendingWithGuest"
+            id="attendingWithGuest"
+            value={formData.attendingWithGuest}
+            onChange={handleChange}
+            className="form-control"
+          >
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
         </div>
         {formData.attendingWithGuest === 'Yes' && (
-          <div>
-            <label>
-              Guest Name:
-              <input
-                type="text"
-                name="guestName"
-                value={formData.guestName}
-                onChange={handleChange}
-              />
-            </label>
-            {errors.guestName && <p>{errors.guestName}</p>}
+          <div className="form-group w-100">
+            <label htmlFor="guestName">Guest Name:</label>
+            <input
+              type="text"
+              name="guestName"
+              id="guestName"
+              value={formData.guestName}
+              onChange={handleChange}
+              className="form-control"
+            />
+            {errors.guestName && <p className="text-danger">{errors.guestName}</p>}
           </div>
         )}
-        <div className='w-100 text-center'>
-            <button type="submit" className="btn btn-primary">Submit</button>
-        </div> 
+        <div className="w-100 text-center">
+          <button type="submit" className="btn btn-primary me-2">Submit</button>
+          <button type="button" className="btn btn-secondary" onClick={handleClear}>Clear</button>
+        </div>
       </form>
       {submittedData && (
-        <div>
+        <div className="mt-4">
           <h2>Submitted Data</h2>
           <p>Name: {submittedData.name}</p>
           <p>Email: {submittedData.email}</p>
